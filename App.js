@@ -9,12 +9,26 @@ class BooksApp extends React.Component {
     books:{}
   }
 
-  componentDidMount(){
-    BooksAPI.getAll().then(data=>{
-      this.setState({books:data})
-      console.log(this.state.books)
-    }).catch(error=>error)
+  getAllBooks=()=>{
+BooksAPI.getAll().then(data=>{
+  this.setState({books:data})
+  console.log(this.state.books);
+}).catch(error=>error);
   }
+
+  componentDidMount(){
+    this.getAllBooks();
+  }
+
+  updateBook = (book, shelf)=>{
+BooksAPI.update(book,shelf).then(b=>{
+  this.setState(state=>({
+    book:state.books.filter(b=>b.id!==book.id).concat([book])
+  }))
+  this.getAllBooks();
+}).catch(function(e){});
+  }
+  
   render() {
     const {books}=this.state;
     return (
@@ -24,11 +38,13 @@ class BooksApp extends React.Component {
          <h1>My Reads</h1>
          </div>
 <div className="list-books-content">
-  <ListBooks books={books}/>
+  <ListBooks books={books} onUpdateShelf={this.updateBook}/>
 </div>
 </div>
 </div>
     )
   }
 }
+
+
 export default BooksApp
