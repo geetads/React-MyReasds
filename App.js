@@ -1,13 +1,16 @@
 import React from 'react'
+import {Route,Link} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListBooks from './ListBooks'
+import SearchBook from './SearchBook'
 
 class BooksApp extends React.Component {
   state = {
     showSearchPage: false,
-    books:{}
-  }
+    books:{},
+    searchBookResul:[]
+  };
 
   getAllBooks=()=>{
 BooksAPI.getAll().then(data=>{
@@ -28,23 +31,74 @@ BooksAPI.update(book,shelf).then(b=>{
   this.getAllBooks();
 }).catch(function(e){});
   }
+
+  onSearchBook=(query)=>{
+    BooksAPI.search(query,20).then(data=>{
+      this.setState(state=>({
+        searchBookResult:data
+      }))
+    }).catch(function(e){
+      console.log(e);
+    })
+  };
   
   render() {
     const {books}=this.state;
     return (
       <div className="app">
-       <div className="List-books">
-       <div className="list-books-title">
-         <h1>My Reads</h1>
+        <Route
+        exact
+        path='/'
+        render={()=>(
+          <div className="List-books">
+          <div className="list-books-title">
+            <h1>My Reads</h1>
+            </div>
+            <div className='listbooks-content'>
+          
+
+            <div className='bookshelf'>
+              <h2 className='bookshelf-title'>Currently Reading</h2>
+              <div className='bookshelf-books'>
+
+     <ListBooks books={books.length>0 && books.filter(book=>book.shelf==='currentlyReading')} 
+     onUpdateShelf={this.updateBook}/>
+     </div>
+     </div>
+
+     <div className='bookshelf'>
+              <h2 className='bookshelf-title'>Want To Read</h2>
+              <div className='bookshelf-books'>
+
+     <ListBooks books={books.length>0 && books.filter(book=>book.shelf==='wantToRead')} 
+     onUpdateShelf={this.updateBook}/>
+     </div>
+     </div>
+
+     <div className='bookshelf'>
+              <h2 className='bookshelf-title'>Read</h2>
+              <div className='bookshelf-books'>
+
+     <ListBooks books={books.length>0 && books.filter(book=>book.shelf==='read')} 
+     onUpdateShelf={this.updateBook}/>
+     </div>
+     </div>
+
+   </div>
+   
+   <div className="open-search">
+      <Link to="/searchbooks" className="search-button">
+         Add a book 
+         </Link> 
          </div>
-<div className="list-books-content">
-  <ListBooks books={books} onUpdateShelf={this.updateBook}/>
-</div>
-</div>
+   </div>    
+        )}/>
+   <Route path='/SearchBooks' render={()=>(<SearchBook searchBookResult={this.state.searchBookResult}
+   onSearchBooks={this.onSearchBook}/>)} />  
 </div>
     )
   }
 }
-
-
 export default BooksApp
+
+ 
