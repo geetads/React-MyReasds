@@ -94,7 +94,7 @@ BooksAPI.update(book,shelf).then(b=>{
    </div>    
         )}/>
    <Route path='/SearchBooks' render={()=>(<SearchBook searchBookResult={this.state.searchBookResult}
-   onSearchBooks={this.onSearchBook}/>)} />  
+   onSearchBooks={this.onSearchBook} onUpdateShelf={this.updateBook}/>)} />  
 </div>
     )
   }
