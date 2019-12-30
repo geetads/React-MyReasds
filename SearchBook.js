@@ -69,37 +69,10 @@ handleChange=(e)=>{
 
 <div>
               <div className='bookshelf-books'></div>
-        <ol className="books-grid">{ searchBookResult && searchBookResult.length>0  && (searchBookResult.map((book,i)=>(
-            <li key={i}>
-                       <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}></div>
-                            <div className="book-shelf-changer">
-                              <select value={book.Shelf} 
-                                       onChange={(e)=>this.onhandleSelectChange(book,e)}> >
-                                <option value="none" disabled>Move to...</option>
-                                <option name="currentlyReading" value="currentlyReading">Currently Reading</option>
-                                <option name="wantToRead" value="wantToRead">Want to Read</option>
-                                <option name="read" value="read">Read</option>
-                                <option name="none" value="none">None</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="book-title">{book.title}</div>
-                          {Array.isArray(book.authors)?
-                          book.authors.map((author,i)=>(
-                            <div key={i} className="book-authors">{author}</div>
-                          ))
-                        :
-                        false
-                        }
-                        </div>
-                        </li>
-                        )))}
-                        </ol>
-
-                            </div>
-                            </div>
+         { searchBookResult && searchBookResult.length>0  && (<ListBooks books={searchBookResult}/>)}
+              
+           </div>
+                </div>       
                       );
                        }
                        }     
