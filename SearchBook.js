@@ -69,7 +69,7 @@ handleChange=(e)=>{
 
 <div>
               <div className='bookshelf-books'></div>
-         { searchBookResult && searchBookResult.length>0  && (<ListBooks books={searchBookResult}/>)}
+         { searchBookResult && searchBookResult.length>0  && (<ListBooks books={searchBookResult} onUpdateShelf={onUpdateShelf}/>)}
               
            </div>
                 </div>       
