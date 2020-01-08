@@ -48,8 +48,8 @@ if (searchBookResult && searchBookResult.length>0){
       if(searchBook.id===bookOnShelf.id){
         searchBook.shelf=bookOnShelf.shelf
       }
-      else{
-        searchBook.shelf='none'
+       else{
+        books.shelf='none';
       }
     });
     return searchBook
