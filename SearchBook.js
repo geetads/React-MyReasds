@@ -39,6 +39,22 @@ handleChange=(e)=>{
     const  {searchBookResult}=this.props;
     const {books,onUpdateShelf}=this.props;
 
+    console.log("searchBookResult",searchBookResult);
+    console.log("books",books)
+let verifiedBooks=[];
+if (searchBookResult && searchBookResult.length>0){
+  verifiedBooks=searchBookResult.map(searchBook=>{
+    books && books.length>0 && books.forEach(bookOnShelf=>{
+      if(searchBook.id===bookOnShelf.id){
+        searchBook.shelf=bookOnShelf.shelf
+      }
+      else{
+        searchBook.shelf='none'
+      }
+    });
+    return searchBook
+  });
+}
 
     return( 
       
@@ -69,7 +85,7 @@ handleChange=(e)=>{
 
 <div>
               <div className='bookshelf-books'></div>
-         { searchBookResult && searchBookResult.length>0  && (<ListBooks books={searchBookResult} onUpdateShelf={onUpdateShelf}/>)}
+         { searchBookResult && searchBookResult.length>0  && (<ListBooks books={verifiedBooks} onUpdateShelf={onUpdateShelf}/>)}
               
            </div>
                 </div>       
